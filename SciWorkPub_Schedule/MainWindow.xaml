@@ -1,0 +1,760 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SciWorkPub_Schedule"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="SciWorkPub_Schedule.MainWindow"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        MinHeight="720" MinWidth="1280"
+        Background="White" BorderBrush="#29434e"
+        ResizeMode="CanMinimize"
+        BorderThickness="0" Foreground="Black"
+        Title="University schedule" Height="720" Width="1280">
+    <Window.Resources>
+        <ControlTemplate x:Key="ScrollViewerControlTemplate1" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Style="{DynamicResource ScrollBarCustom}"/>
+            </Grid>
+        </ControlTemplate>
+        <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
+        <Style x:Key="ListBoxStyle1" TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ListBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
+                            <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}" Template="{DynamicResource ScrollViewerControlTemplate1}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsGrouping" Value="true"/>
+                                    <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ScrollViewerControlTemplate2" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Style="{DynamicResource ScrollBarCustom}"/>
+                <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Style="{DynamicResource ScrollBarCustom}"/>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="TreeViewStyle1" TargetType="{x:Type TreeView}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ListBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeView}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ScrollViewer x:Name="_tv_scrollviewer_" Background="{TemplateBinding Background}" CanContentScroll="false" Focusable="false" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                                <Setter Property="CanContentScroll" TargetName="_tv_scrollviewer_" Value="true"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <WindowChrome.WindowChrome >
+        <WindowChrome CaptionHeight="30"/>
+    </WindowChrome.WindowChrome>
+    <Grid SnapsToDevicePixels="True" UseLayoutRounding="True" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="1.1*"/>
+            <RowDefinition Height="13.7*"/>
+            <RowDefinition Height="0.3*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" >
+            <Grid Grid.Row="0" Background="#29434e" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                <StackPanel VerticalAlignment="Bottom" WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Width="35" Height="15" VerticalAlignment="Bottom" x:Name="MinimizeButton" Style="{DynamicResource ButtonStyleMinimize}"/>
+                    <Button Width="35" Height="15" VerticalAlignment="Bottom" x:Name="MaximizeButton" Margin="2 0 0 0" Style="{DynamicResource ButtonStyle6Maximize}"/>
+                    <Button Width="35" Height="15" VerticalAlignment="Bottom" x:Name="CloseButton" Margin="2 0 5 0" Style="{DynamicResource ButtonStyle7Close}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+
+        <Border Grid.Row="1" Background="#546e7a">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.8*"/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Background="#546e7a"/>
+                <Border Grid.Row="1" Background="#FFCFD8DC"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" BorderThickness="0 0 0 0" SnapsToDevicePixels="True" UseLayoutRounding="True" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--Room info-->
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="1102" Foreground="White" Grid.Column="0" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Margin="4 0 0 15"/>
+                    <Button Grid.Column="1" Content="Додати пару" Margin="60 5 5 0" Style="{DynamicResource ButtonStyleApply}" Width="40" Height="40"/>
+                </Grid>
+                <!--Building choose-->
+                <Border Grid.Column="1" Background="#546e7a">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="rowDefinition1" Height="0.8*"/>
+                            <RowDefinition Height="0.4*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Background="#546e7a"/>
+                        <Border Grid.Row="1" Background="White"/>
+                    </Grid>
+                </Border>
+                <Grid Margin="0 0 0 0" Background="Transparent" Grid.Column="1">
+                </Grid>
+                <!--Leson schedule numbers-->
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Розклад" Foreground="White" Grid.Column="1" Margin="0 0 5 15" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <Button Grid.Column="0" Content="Редагувати" Margin="5 5 60 0" Style="{DynamicResource ButtonStyleEdit}" Width="40" Height="40"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Left Column-->
+            <Grid Grid.Column="0" SnapsToDevicePixels="True" UseLayoutRounding="True" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <!--Lesson info window-->
+                <Border Grid.Row="0" Background="#cfd8dc" Padding="5">
+                    <StackPanel Orientation="Vertical">
+                        <!--Group textbox-->
+                        <Grid Margin="0 10 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="Група:"/>
+                            <TextBox Grid.Column="1" Text="Кі-15-1" BorderThickness="0"/>
+                        </Grid>
+                        <!--Choose week-->
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="Тиждень:"/>
+                            <TextBox Grid.Column="1" Text="Парний" BorderThickness="0"/>
+                        </Grid>
+                        <!--Lesson number-->
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="Пара:"/>
+                            <TextBox Grid.Column="1" Text="Четверта" BorderThickness="0"/>
+                        </Grid>
+                        <!--Lesson-->
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Предмет:"/>
+                            <TextBox Grid.Column="1" Text="Архітектура компютерів(Лек)" BorderThickness="0"/>
+                        </Grid>
+                        <!--Teacher-->
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Викладач:"/>
+                            <TextBox Grid.Column="1" Text="Мойсеєнко О.В." BorderThickness="0"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                <!--Group choose window-->
+                <Border Grid.Row="1" Background="#546e7a" SnapsToDevicePixels="True" UseLayoutRounding="True" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0.6*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Background="#546e7a"/>
+                        <Border Grid.Row="1" Background="#FFCFD8DC"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Групи" Foreground="White" Grid.Column="0" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Margin="4 0 0 15"/>
+                        <Button Grid.Column="1" Content="Додати групу" Margin="60 5 5 0" Style="{DynamicResource ButtonStylePlus}" Width="40" Height="40"/>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="2" Background="#cfd8dc"  SnapsToDevicePixels="True" UseLayoutRounding="True">
+                    <TabControl Background=" #cfd8dc" Margin="0 5 0 0" Grid.Row="0" BorderThickness="0 1 0 0" Padding="0">
+                        <TabItem Header="Групи" Background="#FFCFD8DC">
+                            <TreeView Margin="0 10 0 0"  Background="#cfd8dc" BorderBrush="#cfd8dc"  SnapsToDevicePixels="True" UseLayoutRounding="True">
+                                <TreeView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <EventSetter Event="Selected" Handler="TreeViewSelectedItemChanged" />
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
+                                <TreeViewItem Header="ІІТ">
+                                    <TreeViewItem Header="КІ-17-1"/>
+                                    <TreeViewItem Header="КІ-17-2"/>
+                                    <TreeViewItem Header="КІ-16-1"/>
+                                    <TreeViewItem Header="КІ-16-2"/>
+                                    <TreeViewItem Header="КІ-15-1"/>
+                                    <TreeViewItem Header="КІ-14-1"/>
+                                    <TreeViewItem Header="КІт-16-2"/>
+                                    <TreeViewItem Header="КІт-15-2"/>
+                                    <TreeViewItem Header="КІ-17-1к"/>
+                                    <TreeViewItem Header="КІт-16-1"/>
+                                </TreeViewItem>
+                                <TreeViewItem Header="ІНЕУ">
+                                    <TreeViewItem Header="Кафедра"/>
+                                </TreeViewItem>
+                                <TreeViewItem Header="ЕІ">
+                                    <TreeViewItem Header="Кафедра"/>
+                                </TreeViewItem>
+                            </TreeView>
+                        </TabItem>
+                        <TabItem Header="Предмети" Background=" #cfd8dc">
+                            <Border Margin="0 10 0 0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1.5*"/>
+                                        <RowDefinition Height="4*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Vertical" Grid.Row="0">
+                                        <Grid Margin="5 0 5 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Група:" FontWeight="Bold"/>
+                                            <TextBox Text="КІ-15-1" IsReadOnly="True" Grid.Column="1"/>
+                                        </Grid>
+                                        <Border BorderBrush="#FDACB0B2" BorderThickness="0 2 0 0">
+                                            <TextBlock HorizontalAlignment="Center" Text="Предмети" FontWeight="Bold"/>
+                                        </Border>
+                                        <Grid Margin="0 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" BorderThickness="0 2 1 2" BorderBrush="#FDACB0B2">
+                                                <TextBlock Text="Предмет" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <Border Grid.Column="1" BorderThickness="0 2 0 2" BorderBrush="#FDACB0B2">
+                                                <TextBlock  Text="Викладач" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Border>
+
+                                        </Grid>
+                                    </StackPanel>
+                                    <Grid Grid.Row="1">
+                                        <!--StackPanel for Lessons-->
+                                        <ScrollViewer VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Template="{DynamicResource ScrollViewerControlTemplate2}">
+                                            <StackPanel Orientation="Vertical">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock Text="Комп'ютерна графіка" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <Border Grid.Column="1" BorderThickness="0 0 0 1" BorderBrush="#FDACB0B2">
+                                                        <TextBlock  Text="Гринчук О.В." HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+
+            <!--Main building window-->
+            <Grid Grid.Column="1">
+                <TabControl Background="White" BorderThickness="0 1 0 0" BorderBrush="#FFDADBDC">
+                    <!--0 floor-->
+                    <TabItem BorderBrush="White" Background="White" Header="Нульовий поверх">
+                        <Border Padding="40" Background="White">
+                            <Grid Margin="-20" >
+                                <Image  Source="D:\навчання\ki-15-1 3kurs 1sem\Публікація\SciWorkPub_Schedule\SciWorkPub_Schedule\Resources\Floor_0bmp.bmp" RenderOptions.BitmapScalingMode="HighQuality" OpacityMask="White"/>
+                                <StackPanel Orientation="Vertical" Margin="10,228,0,0">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1008"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="54,211,-11,0">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1006"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="32,343,-11,-115">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1009"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="84,323,-11,69">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1007"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="173,291,-100,101">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1005"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="154,176,-81,216">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1004"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="213,166,-140,226">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1002"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="427,271,-354,121">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1009"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="493,300,-420,92">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1011"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="512,191,-439,201">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1012"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="609,343,-536,49">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1016"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="622,228,-549,164">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1014"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="656,280,-583,112">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1014Б"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+                    <!--1 floor-->
+                    <TabItem Header="Перший поверх" BorderBrush="White" Background="White">
+                        <Border Padding="40">
+                            <Grid Margin="-20" >
+                                <Image  Source="D:\навчання\ki-15-1 3kurs 1sem\Публікація\SciWorkPub_Schedule\SciWorkPub_Schedule\Resources\Floor_1.bmp" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <StackPanel Orientation="Vertical" Margin="215,87,-205,141">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="A-11"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="435,87,-425,141">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="A-12"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="10,306,0,-78">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1106"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="82,394,-72,-166">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1107"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="53,295,-43,-67">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1104"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="33,414,-23,-186">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1109"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="152,256,-142,-28">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1102"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="207,236,-197,-8">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1100"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="427,350,-417,-122">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1111"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="427,228,-417,0">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1108"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="463,246,-453,-18">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1110"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="508,256,-498,-28">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1112"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="620,295,-610,-67">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1114"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="589,404,-579,-176">
+                                    <ToggleButton IsChecked="False" Content="ToggleButton" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ToggleButtonStyle1}" VerticalAlignment="Top" Width="30"/>
+                                    <Label Content="1116"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </TabItem>
+                    <TabItem BorderBrush="White" BorderThickness="0 0 0 0" Background="White" Header="Другий поверх"/>
+                    <TabItem BorderBrush="White" BorderThickness="0 0 0 0" Background="White" Header="Третій поверх"/>
+                    <TabItem BorderBrush="White" BorderThickness="0 0 0 0" Background="White" Header="Четвертий поверх"/>
+                    <TabItem BorderBrush="White" BorderThickness="0 0 0 0" Background="White" Header="П'ятий поверх"/>
+                </TabControl>
+
+
+            </Grid>
+
+            <!--Right Column-->
+            <Grid Grid.Column="3" SnapsToDevicePixels="True" UseLayoutRounding="True" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+
+                <!--Schedule number list-->
+                <Border Grid.Row="0" Background="#cfd8dc" Padding="5">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Тиждень"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Margin="0 0 1 0" Content="Парний" Grid.Column="0" Style="{DynamicResource ButtonStyleNormal}" Foreground="White"/>
+                            <Button Margin="1 0 0 0" Content="Непарний" Grid.Column="1" Style="{DynamicResource ButtonStyleNormal}" Foreground="White"/>
+                        </Grid>
+                        <TextBlock Text="Пара"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Перша пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (  8:00 -   9:20)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Друга пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (  9:35 - 10:55)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Третя пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (11:10 - 12:30)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Четверта пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (12:45 - 14:05)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="П'ята пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (14:35 - 15:55)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Шоста пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (16:10 - 17:30)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Сьома пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (17:45 - 19:05)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Восьма пара" Width="Auto" Margin="0 5 0 0" Foreground="White" Style="{DynamicResource ButtonStyleNormal}"/>
+                            <TextBlock Text="       (19:20 - 20:40)" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 5 0 0"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                <!--Teacher choose window-->
+                <Border Grid.Row="1" Background="#546e7a" SnapsToDevicePixels="True" UseLayoutRounding="True" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0.6*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Background="#FF546E7A"/>
+                        <Border Grid.Row="1" Background="#FFCFD8DC"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.1*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Викладачі" Foreground="White" Grid.Column="1" Margin="0 0 5 15" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Button Grid.Column="0" Content="Додати викладача" Margin="5 5 60 0" Style="{DynamicResource ButtonStylePlus}" Width="40" Height="40"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2">
+                    <TreeView Background="#cfd8dc" BorderBrush="#cfd8dc"  SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <EventSetter Event="Selected" Handler="TreeViewSelectedItemChanged" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeViewItem Header="ІІТ">
+                            <TreeViewItem Header="АКІТ">teachers</TreeViewItem>
+                            <TreeViewItem Header="Вищої математики">teachers</TreeViewItem>
+                            <TreeViewItem Header="Інформатики">teachers</TreeViewItem>
+                            <TreeViewItem Header="ІТТС">teachers</TreeViewItem>
+                            <TreeViewItem Header="КСМ">
+                                <TreeViewItem Header="Бабчук С.М."/>
+                                <TreeViewItem Header="Возний І.І."/>
+                                <TreeViewItem Header="Воронич А.Р."/>
+                                <TreeViewItem Header="Гарасимів Т.Г."/>
+                                <TreeViewItem Header="Горбійчук М.І."/>
+                                <TreeViewItem Header="Гуменюк Т.В."/>
+                                <TreeViewItem Header="Заячук Я.І."/>
+                                <TreeViewItem Header="Кропивницька В.Б."/>
+                                <TreeViewItem Header="Мойсеєнко О.В."/>
+                                <TreeViewItem Header="Сабат Н.В."/>
+                                <TreeViewItem Header="Ширмовська Н.Г."/>
+                            </TreeViewItem>
+                            <TreeViewItem Header="ММІ">teachers</TreeViewItem>
+                            <TreeViewItem Header="ПЗАС">teachers</TreeViewItem>
+                        </TreeViewItem>
+                        <TreeViewItem Header="ІНЕУ">
+                            <TreeViewItem Header="Кафедра"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="ЕІ">
+                            <TreeViewItem Header="Кафедра"/>
+                        </TreeViewItem>
+                    </TreeView>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Border Grid.Row="3" Background="#29434e"  SnapsToDevicePixels="True" UseLayoutRounding="True"/>
+    </Grid>
+</Window>
+

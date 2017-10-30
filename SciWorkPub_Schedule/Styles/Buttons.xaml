@@ -1,0 +1,498 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SciWorkPub_Schedule.Styles">
+
+    <!--ButtonStyles-->
+    <Style TargetType="{x:Type Button}" x:Key="ButtonStylePlus">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="ClickPlusButton">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                                <EasingColorKeyFrame KeyTime="0:0:0.5" Value="#FF546E7A"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.7" Value="#FF819CA9"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle2">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseEnterPlus">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle2">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseLeavePlus">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle2">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content=""/>
+                        <Rectangle x:Name="rectangle" Fill="#FF819CA9" RadiusY="360" RadiusX="360" Stroke="{x:Null}"/>
+                        <Rectangle x:Name="rectangle1" Fill="#FF546E7A" HorizontalAlignment="Center" Height="30" Margin="0" RadiusY="0" RadiusX="0" Stroke="{x:Null}" VerticalAlignment="Center" Width="6"/>
+                        <Rectangle x:Name="rectangle2" Fill="#FF546E7A" HorizontalAlignment="Center" Height="6" Margin="0" RadiusY="0" RadiusX="0" Stroke="{x:Null}" VerticalAlignment="Center" Width="30"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                            <BeginStoryboard Storyboard="{StaticResource ClickPlusButton}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard x:Name="MouseEnterPlus_BeginStoryboard" Storyboard="{StaticResource MouseEnterPlus}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard x:Name="MouseLeavePlus_BeginStoryboard" Storyboard="{StaticResource MouseLeavePlus}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type Button}" x:Key="ButtonStyleApply">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="ClickPlusButton">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                                <EasingColorKeyFrame KeyTime="0:0:0.5" Value="#FF546E7A"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.7" Value="#FF819CA9"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseEnterPlus">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseLeavePlus">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content=""/>
+                        <Rectangle x:Name="rectangle" Fill="#FF819CA9" RadiusY="360" RadiusX="360" Stroke="{x:Null}"/>
+                        <Path x:Name="rectangle1" Fill="#FF546E7A" HorizontalAlignment="Center" Stroke="{x:Null}" VerticalAlignment="Center" Data="M8.1921595,0 L14.19216,0 14.19216,20 13.945,20 13.945,20.009195 0,20.009195 0,14.009196 8.1921595,14.009196 z" Height="20.009" Margin="6.308,11,19.5,8.991" RenderTransformOrigin="0.788615681234451,0.499770222450024" Stretch="Fill" Width="14.192">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="45"/>
+                                    <TranslateTransform X="7"/>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                            <BeginStoryboard Storyboard="{StaticResource ClickPlusButton}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard x:Name="MouseEnterPlus_BeginStoryboard" Storyboard="{StaticResource MouseEnterPlus}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard x:Name="MouseLeavePlus_BeginStoryboard" Storyboard="{StaticResource MouseLeavePlus}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type Button}" x:Key="ButtonStyleEdit">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="ClickPlusButton">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CubicEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                                <EasingColorKeyFrame KeyTime="0:0:0.5" Value="#FF546E7A"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.7" Value="#FF819CA9"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseEnterPlus">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseLeavePlus">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content=""/>
+                        <Rectangle x:Name="rectangle" Fill="#FF819CA9" RadiusY="360" RadiusX="360" Stroke="{x:Null}"/>
+                        <Path x:Name="path" Fill="#FF546E7A" HorizontalAlignment="Center" Stroke="{x:Null}" VerticalAlignment="Center" Data="M0,5.8649242 L6,5.8649242 6,26.570925 0,26.570925 z M2.8007445,0 L6.0123739,4.6303423 0.012373843,4.701 z" Height="26.571" Margin="8.994,25.214,24.994,-11.785" RenderTransformOrigin="0.501029114365587,0.0884613475351228" Stretch="Fill" Width="6.012">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="45"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                            <BeginStoryboard Storyboard="{StaticResource ClickPlusButton}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard x:Name="MouseEnterPlus_BeginStoryboard" Storyboard="{StaticResource MouseEnterPlus}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard x:Name="MouseLeavePlus_BeginStoryboard" Storyboard="{StaticResource MouseLeavePlus}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type Button}" x:Key="ButtonStyleMinimize">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="MinimizeEnter">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MinimizeExit">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF29434E">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseDown">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF29434E"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <Rectangle x:Name="rectangle1" Fill="#FF546E7A" RadiusY="0" RadiusX="0" Stroke="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="15"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content=""/>
+                        <Rectangle x:Name="rectangle" Fill="#FF29434E" HorizontalAlignment="Center" Height="4" Margin="0,5,0,0" RadiusY="0" RadiusX="0" Stroke="{x:Null}" VerticalAlignment="Center" Width="20"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard x:Name="MouseDown_BeginStoryboard" Storyboard="{StaticResource MouseDown}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard x:Name="MinimizeEnter_BeginStoryboard" Storyboard="{StaticResource MinimizeEnter}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard x:Name="MinimizeExit_BeginStoryboard" Storyboard="{StaticResource MinimizeExit}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonStyle6Maximize" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="MinimizeEnter">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MinimizeExit">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF29434E"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseDown">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF29434E"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <Rectangle x:Name="rectangle1" Fill="#FF546E7A" RadiusY="0" RadiusX="0" Stroke="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="15"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content=""/>
+                        <Path x:Name="rectangle" Data="M0.99999994,2.25 L0.99999994,9.25 19,9.25 19,2.25 z M0,0 L20,0 20,10 0,10 z" Fill="#FF29434E" HorizontalAlignment="Center" Height="10" Margin="7.5,2.5" Stretch="Fill" Stroke="{x:Null}" VerticalAlignment="Center" Width="20"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard x:Name="MouseDown_BeginStoryboard" Storyboard="{StaticResource MouseDown}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard x:Name="MinimizeEnter_BeginStoryboard" Storyboard="{StaticResource MinimizeEnter}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard x:Name="MinimizeExit_BeginStoryboard" Storyboard="{StaticResource MinimizeExit}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonStyle7Close" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="MinimizeEnter">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFCFD8DC">
+                                    <EasingColorKeyFrame.EasingFunction>
+                                        <CircleEase EasingMode="EaseIn"/>
+                                    </EasingColorKeyFrame.EasingFunction>
+                                </EasingColorKeyFrame>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MinimizeExit">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF29434E"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="MouseDown">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFCFD8DC"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle1">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF29434E"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <Rectangle x:Name="rectangle1" Fill="#FF546E7A" RadiusY="0" RadiusX="0" Stroke="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="15"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content=""/>
+                        <Path x:Name="path" Fill="#FF29434E" HorizontalAlignment="Center" Stroke="{x:Null}" VerticalAlignment="Center" Width="10" Data="M3.5,0 L6.5,0 6.5,3.4999999 10,3.4999999 10,6.5 6.5,6.5 6.5,10 3.5,10 3.5,6.5 0,6.5 0,3.4999999 3.5,3.4999999 z" Height="10" Margin="12.5,2,12.5,2.5" RenderTransformOrigin="0.5,0.5" Stretch="Fill">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="45"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown">
+                            <BeginStoryboard x:Name="MouseDown_BeginStoryboard" Storyboard="{StaticResource MouseDown}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <BeginStoryboard x:Name="MinimizeEnter_BeginStoryboard" Storyboard="{StaticResource MinimizeEnter}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard x:Name="MinimizeExit_BeginStoryboard" Storyboard="{StaticResource MinimizeExit}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonStyleNormal" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="ButtonClicked">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF546E7A"/>
+                                <EasingColorKeyFrame KeyTime="0:0:0.6" Value="#FF819CA9"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid x:Name="grid">
+                        <Rectangle x:Name="rectangle" Fill="#FF819CA9" RadiusY="0" RadiusX="0" Stroke="{x:Null}"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" OpacityMask="{x:Null}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseDown" SourceName="grid">
+                            <BeginStoryboard Storyboard="{StaticResource ButtonClicked}"/>
+                        </EventTrigger>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--ComboBoxStyle-->
+    <Style TargetType="{x:Type ComboBox}">
+
+        <Setter Property="BorderBrush"
+                    Value="LightSlateGray" />
+        <Setter Property="Background"
+                    Value="white" />
+        <Setter Property="BorderThickness"
+                    Value="0"/>
+
+    </Style>
+    <!--RoomToogle-->
+    <Style x:Key="ToggleButtonStyle1" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="NotAvailableRoom">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFF11010"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFC9543A"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="AvailableRoom">
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF09E021"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="rectangle">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FF91C991"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <Rectangle Fill="#FFCFD8DC" RadiusY="360" RadiusX="360" Stroke="{x:Null}"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Hidden"/>
+                        <Rectangle x:Name="rectangle" RadiusY="360" RadiusX="360" Stroke="{x:Null}" Margin="2">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF828B82" Offset="0"/>
+                                    <GradientStop Color="#FF565F57" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard Storyboard="{StaticResource NotAvailableRoom}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard x:Name="AvailableRoom_BeginStoryboard" Storyboard="{StaticResource AvailableRoom}"/>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
